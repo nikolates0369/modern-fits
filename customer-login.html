@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login | Modern Fits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 font-sans">
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+            <h1 class="text-2xl font-bold mb-6">Customer Login</h1>
+            <div id="loginStatus" class="mb-4 text-sm"></div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Username</label>
+                    <input id="loginUsername" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Password</label>
+                    <input id="loginPassword" type="password" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black" required>
+                </div>
+                <button type="submit" class="w-full bg-black text-white font-bold py-3 rounded-lg hover:bg-slate-800 transition">Log In</button>
+            </form>
+            <p class="text-center mt-4 text-sm text-slate-600">
+                Don't have an account? <a href="register.html" class="text-black font-bold">Register</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const statusEl = document.getElementById('loginStatus');
+        const form = document.getElementById('loginForm');
+
+        async function checkLoggedIn() {
+            try {
+                const res = await fetch('/api/customer/me', { credentials: 'include' });
+                if (res.ok) {
+                    window.location.href = 'shop.html';
+                }
+            } catch {
+                // ignore
+            }
+        }
+
+        function setStatus(message, error = false) {
+            statusEl.textContent = message;
+            statusEl.className = error ? 'mb-4 text-sm text-red-600' : 'mb-4 text-sm text-emerald-600';
+        }
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            setStatus('Logging in...', false);
+
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const res = await fetch('/api/customer/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (!res.ok) {
+                    const err = await res.json();
+                    setStatus(err.error || 'Login failed', true);
+                    return;
+                }
+
+                window.location.href = 'shop.html';
+            } catch (err) {
+                setStatus('Network error. Try again.', true);
+            }
+        });
+
+        checkLoggedIn();
+    </script>
+</body>
+</html>

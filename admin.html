@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Modern Fits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 font-sans">
+
+    <div class="max-w-5xl mx-auto py-12 px-4">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+            <button id="logoutBtn" class="text-sm font-semibold text-black border border-slate-300 rounded-lg px-4 py-2 hover:bg-slate-200 transition">Log out</button>
+        </div>
+
+        <div id="status" class="mb-6"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold mb-6">Add / Edit Product</h2>
+                <form id="productForm" class="space-y-4">
+                    <input type="hidden" id="productId" />
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Item Category</label>
+                        <select id="category" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                            <option value="furniture">Furniture (Product)</option>
+                            <option value="fitting">Fitting (Service)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Item Name</label>
+                        <input type="text" id="itemName" placeholder="e.g., L-Shaped Sofa" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Price (KES)</label>
+                        <input type="number" id="price" placeholder="45000" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Description</label>
+                        <textarea id="description" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Upload Photo</label>
+                        <input type="file" id="imageFile" class="text-sm">
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button type="submit" class="flex-1 bg-black text-white font-bold py-3 rounded-lg hover:bg-slate-800 transition">Save</button>
+                        <button type="button" id="resetForm" class="flex-1 bg-slate-100 text-black font-bold py-3 rounded-lg hover:bg-slate-200 transition">Clear</button>
+                    </div>
+                </form>
+
+                <div class="mt-6 text-sm text-slate-500">
+                    <p>Save will create or update a product. The list updates in real-time.</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="bg-black text-white p-6 rounded-2xl shadow-lg mb-6">
+                    <h3 class="text-lg font-bold mb-2">Inventory Status</h3>
+                    <p class="text-slate-200 text-sm">You currently have <span id="inventoryCount" class="text-white font-bold">0</span> items live on the site.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold mb-4">Products</h3>
+                    <div id="productList" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <h2 class="text-xl font-bold mb-6">Site Settings</h2>
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Company Email</label>
+                    <input type="email" id="companyEmail" placeholder="contact@modernfits.com" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="+1 (555) 123-4567" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">About Us</label>
+                    <textarea id="aboutUs" rows="4" placeholder="Tell customers about your company..." class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Facebook</label>
+                    <input type="url" id="facebook" placeholder="https://facebook.com/modernfits" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Instagram</label>
+                    <input type="url" id="instagram" placeholder="https://instagram.com/modernfits" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Twitter</label>
+                    <input type="url" id="twitter" placeholder="https://twitter.com/modernfits" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-sm outline-none focus:ring-2 focus:ring-black">
+                </div>
+                <button type="submit" class="bg-black text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800 transition">Save Settings</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+
+        function setStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = type === 'error' ? 'mb-6 text-sm text-red-600' : 'mb-6 text-sm text-emerald-600';
+        }
+
+        async function apiFetch(url, opts = {}) {
+            const res = await fetch(url, { ...opts, credentials: 'include', headers: { 'Content-Type': 'application/json', ...opts.headers } });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || res.statusText);
+            }
+            return res.json();
+        }
+
+        async function checkAuth() {
+            try {
+                await apiFetch(`${API_BASE}/me`);
+                return true;
+            } catch {
+                window.location.href = '/login.html';
+                return false;
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('productId').value = '';
+            document.getElementById('category').value = 'furniture';
+            document.getElementById('itemName').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('imageFile').value = '';
+        }
+
+        function createProductCard(product) {
+            const item = document.createElement('div');
+            item.className = 'border border-slate-200 rounded-xl p-4 flex flex-col gap-3';
+
+            const header = document.createElement('div');
+            header.className = 'flex items-center justify-between gap-3';
+
+            const title = document.createElement('h4');
+            title.className = 'font-semibold';
+            title.textContent = product.title;
+
+            const actions = document.createElement('div');
+            actions.className = 'flex gap-2';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'text-xs font-semibold px-3 py-1 rounded-lg border border-slate-200 hover:bg-slate-100';
+            editBtn.textContent = 'Edit';
+            editBtn.addEventListener('click', () => populateForm(product));
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'text-xs font-semibold px-3 py-1 rounded-lg border border-red-200 text-red-600 hover:bg-red-50';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', async () => {
+                if (!confirm('Delete this product?')) return;
+                try {
+                    await apiFetch(`${API_BASE}/products/${product.id}`, { method: 'DELETE' });
+                    setStatus('Product deleted.', 'info');
+                    await loadProducts();
+                } catch (err) {
+                    setStatus(err.message, 'error');
+                }
+            });
+
+            actions.appendChild(editBtn);
+            actions.appendChild(deleteBtn);
+
+            header.appendChild(title);
+            header.appendChild(actions);
+
+            const meta = document.createElement('div');
+            meta.className = 'text-xs text-slate-500 space-y-1';
+            meta.innerHTML = `<div><strong>Category:</strong> ${product.category}</div><div><strong>Price:</strong> ${product.price}</div>`;
+
+            item.appendChild(header);
+            item.appendChild(meta);
+
+            return item;
+        }
+
+        function populateForm(product) {
+            document.getElementById('productId').value = product.id;
+            document.getElementById('category').value = product.category;
+            document.getElementById('itemName').value = product.title;
+            document.getElementById('price').value = product.price;
+            document.getElementById('description').value = product.description;
+            document.getElementById('imageFile').value = '';
+            setStatus('Editing product. Click Save to update.', 'info');
+        }
+
+        async function loadProducts() {
+            try {
+                const products = await apiFetch(`${API_BASE}/products`);
+                document.getElementById('inventoryCount').textContent = products.length;
+
+                const list = document.getElementById('productList');
+                list.innerHTML = '';
+
+                if (!products.length) {
+                    list.innerHTML = '<p class="text-sm text-slate-500">No products yet. Use the form to add one.</p>';
+                    return;
+                }
+
+                products.forEach((product) => {
+                    list.appendChild(createProductCard(product));
+                });
+            } catch (err) {
+                setStatus(err.message, 'error');
+            }
+        }
+
+        async function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function loadContact() {
+            try {
+                const contact = await apiFetch(`${API_BASE}/contact`);
+                document.getElementById('companyEmail').value = contact.email || '';
+                document.getElementById('phoneNumber').value = contact.phone || '';
+                document.getElementById('aboutUs').value = contact.about || '';
+                document.getElementById('facebook').value = contact.socials?.facebook || '';
+                document.getElementById('instagram').value = contact.socials?.instagram || '';
+                document.getElementById('twitter').value = contact.socials?.twitter || '';
+            } catch (err) {
+                setStatus('Failed to load contact info.', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkAuth();
+            await loadProducts();
+            await loadContact();
+
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                await fetch(`${API_BASE}/logout`, { method: 'POST', credentials: 'include' });
+                window.location.href = '/login.html';
+            });
+
+            document.getElementById('resetForm').addEventListener('click', () => {
+                resetForm();
+                setStatus('Form cleared.', 'info');
+            });
+
+            document.getElementById('productForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const id = document.getElementById('productId').value;
+                const category = document.getElementById('category').value;
+                const title = document.getElementById('itemName').value.trim();
+                const price = Number(document.getElementById('price').value);
+                const description = document.getElementById('description').value.trim();
+                const fileInput = document.getElementById('imageFile');
+
+                if (!title || !description || !price) {
+                    setStatus('Please fill in the name, price, and description.', 'error');
+                    return;
+                }
+
+                let image;
+                if (fileInput.files && fileInput.files.length > 0) {
+                    try {
+                        image = await readFileAsDataURL(fileInput.files[0]);
+                    } catch {
+                        setStatus('Failed to read image file.', 'error');
+                        return;
+                    }
+                }
+
+                const payload = {
+                    title,
+                    description,
+                    price,
+                    category,
+                    ...(image ? { image } : {})
+                };
+
+                try {
+                    if (id) {
+                        await apiFetch(`${API_BASE}/products/${id}`, {
+                            method: 'PUT',
+                            body: JSON.stringify(payload)
+                        });
+                        setStatus('Product updated.', 'info');
+                    } else {
+                        await apiFetch(`${API_BASE}/products`, {
+                            method: 'POST',
+                            body: JSON.stringify(payload)
+                        });
+                        setStatus('Product added.', 'info');
+                    }
+
+                    resetForm();
+                    await loadProducts();
+                } catch (err) {
+                    setStatus(err.message, 'error');
+                }
+            });
+
+            document.getElementById('contactForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const contact = {
+                    email: document.getElementById('companyEmail').value.trim(),
+                    phone: document.getElementById('phoneNumber').value.trim(),
+                    about: document.getElementById('aboutUs').value.trim(),
+                    socials: {
+                        facebook: document.getElementById('facebook').value.trim(),
+                        instagram: document.getElementById('instagram').value.trim(),
+                        twitter: document.getElementById('twitter').value.trim()
+                    }
+                };
+
+                try {
+                    await apiFetch(`${API_BASE}/contact`, {
+                        method: 'PUT',
+                        body: JSON.stringify(contact)
+                    });
+                    setStatus('Contact info updated.', 'info');
+                } catch (err) {
+                    setStatus('Failed to update contact info.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

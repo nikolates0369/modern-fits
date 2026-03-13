@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Fits | Quality Furniture & Fitting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between gap-4">
+                <div class="text-xl font-bold text-black tracking-tight">MODERN<span class="text-gray-400">FITS</span></div>
+                
+                <div class="flex-1 relative">
+                    <input type="text" placeholder="Search furniture or fitting services..." 
+                           class="w-full bg-gray-100 border-none rounded-full py-2 px-5 text-sm focus:ring-2 focus:ring-black outline-none">
+                    <i class="fa-solid fa-magnifying-glass absolute right-4 top-3 text-gray-400 text-sm"></i>
+                </div>
+
+                <div class="flex items-center gap-5 text-gray-700">
+                    <a href="customer-login.html"><i class="fa-regular fa-user text-xl"></i></a>
+                    <a href="#" id="cartLink" class="relative">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-black text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-4">
+        
+        <section class="relative bg-black rounded-2xl overflow-hidden h-[400px] mb-8">
+            <div class="absolute inset-0 bg-gray-800 opacity-60"></div>
+            
+            <div class="relative z-10 h-full flex flex-col justify-center items-start p-8 md:p-16">
+                <span class="text-white text-xs font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full mb-4">Professional Fitting</span>
+                <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">Expert House Fittings <br>For Modern Homes.</h1>
+                <p class="text-gray-300 max-w-md mb-8">From modular kitchens to luxury wardrobes. We bring your dream space to life with precision.</p>
+                <div class="flex gap-4">
+                    <button class="bg-white text-black px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition">Book a Consultation</button>
+                    <button class="border border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:text-black transition">Browse Designs</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="flex gap-4 overflow-x-auto pb-4 no-scrollbar mb-8">
+            <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                <div class="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100"><i class="fa-solid fa-kitchen-set"></i></div>
+                <span class="text-xs font-medium italic">Kitchens</span>
+            </div>
+            <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                <div class="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100"><i class="fa-solid fa-bed"></i></div>
+                <span class="text-xs font-medium italic">Bedrooms</span>
+            </div>
+            <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                <div class="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100"><i class="fa-solid fa-couch"></i></div>
+                <span class="text-xs font-medium italic">Living Room</span>
+            </div>
+             <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                <div class="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100"><i class="fa-solid fa-door-closed"></i></div>
+                <span class="text-xs font-medium italic">Wardrobes</span>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Professional Fitting</h2>
+                    <p class="text-sm text-slate-500">Expert installation for every corner of your home.</p>
+                </div>
+                <a href="services.html" class="text-sm font-semibold border-b-2 border-black">View All Services</a>
+            </div>
+
+            <div id="fittingGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Fitting products will be injected here -->
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">Cool Furniture</h2>
+                <div class="flex gap-2">
+                    <button id="prevFurniture" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-black hover:text-white transition">←</button>
+                    <button id="nextFurniture" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-black hover:text-white transition">→</button>
+                </div>
+            </div>
+
+            <div id="furnitureGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Furniture products will be injected here -->
+            </div>
+        </section>
+
+        <section class="mb-12 bg-slate-50 p-8 rounded-2xl">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">About Us</h2>
+                <p id="aboutText" class="text-slate-600 max-w-2xl mx-auto">Loading...</p>
+            </div>
+            <div class="flex justify-center gap-6" id="socialLinks">
+                <!-- Social links will be injected here -->
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const API_BASE = '/api';
+
+        async function fetchData() {
+            try {
+                return await fetch(`${API_BASE}/data`).then((r) => r.json());
+            } catch {
+                const res = await fetch('data.json');
+                return await res.json();
+            }
+        }
+
+        function createProductCard(product, isFitting) {
+            const link = document.createElement('a');
+            link.href = isFitting ? 'services.html' : `product.html?id=${product.id}`;
+            link.className = 'group relative block overflow-hidden rounded-xl bg-slate-200 h-64 cursor-pointer';
+
+            const image = document.createElement('div');
+            image.className = 'absolute inset-0 placeholder-img opacity-40 group-hover:scale-105 transition duration-500';
+            if (product.image) {
+                image.style.backgroundImage = `url(${product.image})`;
+                image.style.backgroundSize = 'cover';
+                image.style.backgroundPosition = 'center';
+                image.textContent = '';
+            } else {
+                image.textContent = product.title || 'No image';
+            }
+
+            const overlay = document.createElement('div');
+            overlay.className = 'absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6';
+
+            const title = document.createElement('h3');
+            title.className = 'text-white text-xl font-bold';
+            title.textContent = product.title || 'Untitled';
+
+            const desc = document.createElement('p');
+            desc.className = 'text-gray-300 text-sm mb-4';
+            desc.textContent = product.description || '';
+
+            const action = document.createElement('span');
+            action.className = 'text-white text-xs font-bold underline';
+            action.textContent = isFitting ? 'GET A QUOTE →' : `$${product.price || 0}`;
+
+            overlay.appendChild(title);
+            overlay.appendChild(desc);
+            overlay.appendChild(action);
+
+            link.appendChild(image);
+            link.appendChild(overlay);
+
+            return link;
+        }
+
+        async function renderProducts() {
+            const data = await fetchData();
+            const products = data.products || [];
+
+            const fittingGrid = document.getElementById('fittingGrid');
+            const furnitureGrid = document.getElementById('furnitureGrid');
+
+            fittingGrid.innerHTML = '';
+            furnitureGrid.innerHTML = '';
+
+            products.forEach((product) => {
+                const isFitting = product.category === 'fitting';
+                const isFurniture = product.category === 'furniture';
+
+                if (isFitting) {
+                    fittingGrid.appendChild(createProductCard(product, true));
+                }
+
+                if (isFurniture) {
+                    furnitureGrid.appendChild(createProductCard(product, false));
+                }
+            });
+
+            if (!fittingGrid.children.length) {
+                fittingGrid.innerHTML = '<div class="text-sm text-slate-500">No fitting services have been added yet.</div>';
+            }
+
+            if (!furnitureGrid.children.length) {
+                furnitureGrid.innerHTML = '<div class="text-sm text-slate-500">No furniture products have been added yet.</div>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await renderProducts();
+            await loadContact();
+
+            const prev = document.getElementById('prevFurniture');
+            const next = document.getElementById('nextFurniture');
+            const grid = document.getElementById('furnitureGrid');
+
+            prev.addEventListener('click', () => {
+                grid.scrollBy({ left: -300, behavior: 'smooth' });
+            });
+            next.addEventListener('click', () => {
+                grid.scrollBy({ left: 300, behavior: 'smooth' });
+            });
+        });
+
+        async function loadContact() {
+            try {
+                const response = await fetch(`${API_BASE}/contact`);
+                const contact = await response.json();
+
+                document.getElementById('aboutText').textContent = contact.about || 'About us information not available.';
+
+                const socialLinks = document.getElementById('socialLinks');
+                socialLinks.innerHTML = '';
+
+                if (contact.socials?.facebook) {
+                    socialLinks.innerHTML += `<a href="${contact.socials.facebook}" target="_blank" class="text-2xl text-blue-600 hover:text-blue-800"><i class="fab fa-facebook"></i></a>`;
+                }
+                if (contact.socials?.instagram) {
+                    socialLinks.innerHTML += `<a href="${contact.socials.instagram}" target="_blank" class="text-2xl text-pink-600 hover:text-pink-800"><i class="fab fa-instagram"></i></a>`;
+                }
+                if (contact.socials?.twitter) {
+                    socialLinks.innerHTML += `<a href="${contact.socials.twitter}" target="_blank" class="text-2xl text-blue-400 hover:text-blue-600"><i class="fab fa-twitter"></i></a>`;
+                }
+            } catch (error) {
+                console.error('Failed to load contact info:', error);
+                document.getElementById('aboutText').textContent = 'About us information not available.';
+            }
+        }
+    </script>
+</body>
+</html>
