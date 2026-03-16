@@ -39,15 +39,21 @@ app.use(session({
 app.use(express.static(path.join(__dirname)));
 
 // Email transporter (configure with your email service)
-const transporter = nodemailer.createTransporter({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER || 'your-email@gmail.com',
-    pass: process.env.EMAIL_PASS || 'your-app-password'
-  }
-});
+let transporter;
+if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+} else {
+  console.warn('⚠️ Email not configured - order confirmation emails will not be sent');
+  transporter = null;
+}
 
 function authRequired(req, res, next) {
   if (req.session && req.session.user) {
@@ -385,6 +391,11 @@ app.put('/api/contact', authRequired, async (req, res) => {
 });
 
 async function sendOrderConfirmationEmail(order, contact) {
+  if (!transporter) {
+    console.log('Email not configured, skipping email for order', order.id);
+    return;
+  }
+  
   const customerEmail = order.shippingInfo.email;
   const subject = `Order Confirmation - Order #${order.id}`;
   const itemsHtml = order.items.map(item => `<li>${item.title} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}</li>`).join('');
@@ -404,7 +415,7 @@ async function sendOrderConfirmationEmail(order, contact) {
 
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER || 'your-email@gmail.com',
+      from: process.env.EMAIL_USER,
       to: customerEmail,
       subject,
       html
