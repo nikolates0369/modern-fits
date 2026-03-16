@@ -6,7 +6,11 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config();
+
+// Load dotenv only in development (not on Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +18,14 @@ const PORT = process.env.PORT || 3000;
 // Initialize Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('ERROR: Missing Supabase environment variables!');
+  console.error('SUPABASE_URL:', supabaseUrl ? '✓ Set' : '✗ Missing');
+  console.error('SUPABASE_ANON_KEY:', supabaseKey ? '✓ Set' : '✗ Missing');
+  process.exit(1);
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 app.use(cors({ origin: true, credentials: true }));
