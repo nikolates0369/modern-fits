@@ -19,14 +19,24 @@ const PORT = process.env.PORT || 3000;
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 
+let supabase = null;
+
 if (!supabaseUrl || !supabaseKey) {
   console.error('ERROR: Missing Supabase environment variables!');
   console.error('SUPABASE_URL:', supabaseUrl ? '✓ Set' : '✗ Missing');
   console.error('SUPABASE_ANON_KEY:', supabaseKey ? '✓ Set' : '✗ Missing');
-  process.exit(1);
+} else {
+  supabase = createClient(supabaseUrl, supabaseKey);
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+function requireSupabase(req, res) {
+  if (!supabase) {
+    res.status(500).json({ error: 'Supabase is not configured. Please set SUPABASE_URL and SUPABASE_ANON_KEY.' });
+    return false;
+  }
+  return true;
+}
+
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
@@ -72,6 +82,8 @@ app.get('/api/data', (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { username, password } = req.body || {};
     if (!username || !password) {
@@ -115,6 +127,8 @@ app.get('/api/me', (req, res) => {
 });
 
 app.get('/api/products', async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { data: products, error } = await supabase
       .from('products')
@@ -130,6 +144,8 @@ app.get('/api/products', async (req, res) => {
 });
 
 app.post('/api/products', authRequired, async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const product = req.body;
 
@@ -152,6 +168,8 @@ app.post('/api/products', authRequired, async (req, res) => {
 });
 
 app.put('/api/products/:id', authRequired, async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const id = Number(req.params.id);
     const updated = req.body;
@@ -180,6 +198,8 @@ app.put('/api/products/:id', authRequired, async (req, res) => {
 });
 
 app.delete('/api/products/:id', authRequired, async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const id = Number(req.params.id);
 
@@ -205,6 +225,8 @@ function customerAuthRequired(req, res, next) {
 }
 
 app.post('/api/customer/register', async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { username, password, email } = req.body || {};
 
@@ -241,6 +263,8 @@ app.post('/api/customer/register', async (req, res) => {
 });
 
 app.post('/api/customer/login', async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { username, password } = req.body || {};
 
@@ -281,6 +305,8 @@ app.get('/api/customer/me', (req, res) => {
 
 // Orders
 app.post('/api/orders', customerAuthRequired, async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { items, shippingInfo } = req.body || {};
 
@@ -323,6 +349,8 @@ app.post('/api/orders', customerAuthRequired, async (req, res) => {
 });
 
 app.get('/api/orders', customerAuthRequired, async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { data: orders, error } = await supabase
       .from('orders')
@@ -348,6 +376,8 @@ app.get('/api/orders', customerAuthRequired, async (req, res) => {
 
 // Contact info
 app.get('/api/contact', async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { data: contact, error } = await supabase
       .from('contact')
@@ -375,6 +405,8 @@ app.get('/api/contact', async (req, res) => {
 });
 
 app.put('/api/contact', authRequired, async (req, res) => {
+  if (!requireSupabase(req, res)) return;
+
   try {
     const { data, error } = await supabase
       .from('contact')
