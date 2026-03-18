@@ -670,7 +670,11 @@ async function sendOrderConfirmationEmail(order, contact) {
   }
 }
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-  console.log('Serving static site and simple API endpoints.');
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+    console.log('Serving static site and simple API endpoints.');
+  });
+}
+
+module.exports = app;
